@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Example;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash; //n
@@ -28,5 +29,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
             'password' => Hash::make('user'),
         ]);
+
+        Example::factory(37)->create();
     }
 }
