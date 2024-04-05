@@ -6,10 +6,11 @@ use App\Models\Example;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Trait\HandleImage;
+use App\Trait\Decryptor;
 
 class ExampleController extends Controller
 {
-    use HandleImage;
+    use HandleImage, Decryptor;
 
     protected $uploadPath = 'uploads/example';
     protected $defaultImage = 'default/profile.png';
@@ -67,8 +68,11 @@ class ExampleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Example $example)
+    // public function show(Example $example)
+    public function show($id)
     {
+        $example = $this->decryptId(Example::class, $id);
+
         return Inertia::render("Example/Show", [
             'example' => $example
         ]);
@@ -77,8 +81,10 @@ class ExampleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Example $example)
+    public function edit($id)
     {
+        $example = $this->decryptId(Example::class, $id);
+
         return Inertia::render("Example/Edit", [
             'example' => $example,
             // just for redirect purposes
@@ -89,8 +95,10 @@ class ExampleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Example $example)
+    public function update(Request $request, $id)
     {
+        $example = $this->decryptId(Example::class, $id);
+
         $request->validate([
             'name'   => 'required',
         ]);
@@ -114,8 +122,10 @@ class ExampleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Example $example)
+    public function destroy($id)
     {
+        $example = $this->decryptId(Example::class, $id);
+        
         $this->deleteImage($example->getRawOriginal('image'));
         $example->delete();
         return redirect(request()->header('referer'))->with('message', 'Data Deleted!');

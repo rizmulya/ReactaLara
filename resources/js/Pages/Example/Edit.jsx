@@ -7,8 +7,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 // lib
 import { Head, useForm, router } from "@inertiajs/react";
 import { useState, useEffect } from 'react';
+import { useEnc } from "@/Lib/Encryptor";
 
-export default function UserEdit({ auth, example, referer }) {
+export default function UserEdit({ cryptojskey, auth, example, referer }) {
     const { data, setData, processing, errors, progress } = useForm({
         name: example.name,
         image: null,
@@ -30,7 +31,7 @@ export default function UserEdit({ auth, example, referer }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.post(`/example/${example.id}`, {
+        router.post(route("example.update", { id: useEnc(example.id, cryptojskey) }), {
             _method: 'put',
             name: data.name,
             image: data.image,

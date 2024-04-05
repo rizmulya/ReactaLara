@@ -5,9 +5,10 @@ import Pagination from "@/Components/Pagination";
 import NotificationBox from "@/Components/NotificationBox";
 // lib
 import { Head, usePage, useForm, Link } from "@inertiajs/react";
+import { useEnc } from "@/Lib/Encryptor";
 
 export default function Example({ examples, search }) {
-    const { auth, flash } = usePage().props;
+    const { auth, flash, cryptojskey } = usePage().props;
 
     const { delete: destroy } = useForm();
     const { data, setData, get, processing } = useForm({
@@ -103,7 +104,7 @@ export default function Example({ examples, search }) {
                                                     <Link
                                                         href={route(
                                                             "example.show",
-                                                            { id: example.id }
+                                                            { id: useEnc(example.id, cryptojskey) }
                                                         )}
                                                         className="text-gray-600 hover:text-blue-900 mr-3"
                                                     >
@@ -112,7 +113,7 @@ export default function Example({ examples, search }) {
                                                     <Link
                                                         href={route(
                                                             "example.edit",
-                                                            { id: example.id }
+                                                            { id: useEnc(example.id, cryptojskey) }
                                                         )}
                                                         className="text-blue-600 hover:text-blue-900 mr-3"
                                                     >
@@ -122,7 +123,7 @@ export default function Example({ examples, search }) {
                                                         className="text-red-600 hover:text-red-900"
                                                         onClick={() =>
                                                             handleDelete(
-                                                                example.id
+                                                                useEnc(example.id, cryptojskey)
                                                             )
                                                         }
                                                     >

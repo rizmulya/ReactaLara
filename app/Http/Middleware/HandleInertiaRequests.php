@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => fn () => $request->session()->get('message')
             ],
+            'cryptojskey' => env('CRYPTOJS_KEY'),
         ];
     }
 }
