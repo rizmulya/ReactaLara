@@ -21,16 +21,12 @@
 
 installation 
 ```
-git clone https://github.com/rizmulya/reactalara.git \
-    && cd reactalara \
-    && npm install \
-    && composer install 
+git clone https://github.com/rizmulya/reactalara.git && cd reactalara && npm install && composer install
 ```
 set `.env` and `crytojs_key`
 
 ```
-php artisan key:generate \
-    && php artisan migrate:fresh --seed 
+php artisan key:generate && php artisan migrate:fresh --seed 
 ```
 
 run with :
