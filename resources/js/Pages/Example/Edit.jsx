@@ -5,18 +5,37 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 // lib
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, router } from "@inertiajs/react";
+import { useState, useEffect } from 'react';
 
 export default function UserEdit({ auth, example, referer }) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, processing, errors, progress } = useForm({
         name: example.name,
+        image: null,
         // just for redirect purposes
         referer: referer,
     });
 
+    const [imagePreview, setImagePreview] = useState(example.image || '');
+
+    useEffect(() => {
+        if (data.image && data.image instanceof File) {
+            const fileReader = new FileReader();
+            fileReader.onloadend = () => {
+                setImagePreview(fileReader.result);
+            };
+            fileReader.readAsDataURL(data.image);
+        }
+    }, [data.image]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route("example.update", { id: example.id }));
+        router.post(`/example/${example.id}`, {
+            _method: 'put',
+            name: data.name,
+            image: data.image,
+            referer: data.referer,
+        });
     };
 
     const handleBack = (e) => {
@@ -62,6 +81,29 @@ export default function UserEdit({ auth, example, referer }) {
                                         message={errors.name}
                                     />
                                 </div>
+
+                                <div>
+                                    <InputLabel htmlFor="image" value="Image" />
+
+                                    <input
+                                        type="file"
+                                        className="w-full px-4 py-2"
+                                        label="Image"
+                                        onChange={(e) => setData("image", e.target.files[0])}
+                                    />
+
+                                    <InputError message={errors.image} className="mt-2" />
+
+                                    {imagePreview && (
+                                        <img src={imagePreview} alt="Preview" className="mt-1" style={{ maxWidth: '250px' }} />
+                                    )}
+                                </div>
+
+                                {progress && (
+                                    <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                                        <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" width={progress.percentage}> {progress.percentage}%</div>
+                                    </div>
+                                )}
 
                                 <div className="flex items-center">
                                     <PrimaryButton

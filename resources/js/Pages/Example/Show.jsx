@@ -38,6 +38,11 @@ export default function UserEdit({ auth, example }) {
                                         readOnly
                                     />
                                 </div>
+                                <div>
+                                    <InputLabel htmlFor="image" value="image" />
+
+                                    <img src={example.image} alt={example.name} className="mt-1" style={{ maxWidth: '250px' }}/>
+                                </div>
 
                                 <div className="flex items-center gap-4">
                                     <PrimaryButton

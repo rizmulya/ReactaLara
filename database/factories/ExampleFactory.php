@@ -18,6 +18,7 @@ class ExampleFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'image' => 'default/profile.png',
         ];
     }
 }

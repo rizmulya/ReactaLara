@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Trait\HandleImage;
 
 class ExampleController extends Controller
 {
+    use HandleImage;
+
+    protected $uploadPath = 'uploads/example';
+    protected $defaultImage = 'default/profile.png';
+
     /**
      * Display a listing of the resource.
      */
@@ -20,11 +26,12 @@ class ExampleController extends Controller
         $examples = Example::when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%");
             // ->orWhere('more', 'LIKE', "%{$search}%");
-        })->paginate(10);
-        
+        })->orderBy('created_at', 'desc')
+            ->paginate(10);
+
         // hold the search result
         $examples->appends(['search' => $search]);
-        
+
         return Inertia::render("Example/Index", [
             'examples' => $examples,
             'search' => $search,
@@ -46,11 +53,13 @@ class ExampleController extends Controller
     {
         $request->validate([
             'name'   => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        Example::create([
-            'name' => $request->name,
-        ]);
+        $input = $request->all();
+        $input['image'] = $this->uploadImage($request->file('image'));
+
+        Example::create($input);
 
         return redirect()->route('example.index')->with('message', 'Data Added!');
     }
@@ -86,13 +95,20 @@ class ExampleController extends Controller
             'name'   => 'required',
         ]);
 
-        $example->update([
-            'name' => $request->name,
-        ]);
+        $input = $request->all();
 
-        if (!is_null($request->referer))
-            return redirect($request->referer)->with('message', 'Data Updated!');
-        return redirect()->route('example.index')->with('message', 'Data Updated!');
+        if ($image = $request->file('image')) {
+            $input['image'] = $this->uploadImage($image);
+            $this->deleteImage($example->getRawOriginal('image'));
+        } else {
+            unset($input['image']);
+        }
+
+        $example->update($input);
+
+        return !is_null($request->referer)
+            ? redirect($request->referer)->with('message', 'Data Updated!')
+            : redirect()->route('example.index')->with('message', 'Data Updated!');
     }
 
     /**
@@ -100,6 +116,7 @@ class ExampleController extends Controller
      */
     public function destroy(Example $example)
     {
+        $this->deleteImage($example->getRawOriginal('image'));
         $example->delete();
         return redirect(request()->header('referer'))->with('message', 'Data Deleted!');
     }

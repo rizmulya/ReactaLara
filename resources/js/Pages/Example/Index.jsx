@@ -72,6 +72,9 @@ export default function Example({ examples, search }) {
                                             No
                                         </th>
                                         <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            Image
+                                        </th>
+                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             Name
                                         </th>
                                         <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -89,6 +92,9 @@ export default function Example({ examples, search }) {
                                                         examples.per_page +
                                                         i +
                                                         1}
+                                                </td>
+                                                <td className="py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <img src={example.image} width="100px" />
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     {example.name}
