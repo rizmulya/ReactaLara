@@ -6,7 +6,7 @@
 
 ## React + Laravel + Inertia
 
-<b>ReactaLara</b> [React](https://react.dev/) 18 + [Laravel](https://laravel.com/) 11 + [Inertia](https://inertiajs.com/) <b>Starter Stack</b> with :
+<b>ReactaLara: A Starter Stack with </b> [React](https://react.dev/) 18, [Laravel](https://laravel.com/) 11, [Inertia](https://inertiajs.com/), featuring :
 
 -   Laravel Breeze Authentication
 -   Multi-Role Authorization
