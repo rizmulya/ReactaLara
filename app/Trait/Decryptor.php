@@ -16,7 +16,7 @@ trait Decryptor
     public static function decryptId(string $modelClass, $encryptedId)
     {
         try {
-            $decryptedId = CryptoJsAes::decrypt(base64_decode($encryptedId), env('CRYPTOJS_KEY'));
+            $decryptedId = CryptoJsAes::decrypt(base64_decode($encryptedId), config('app.cryptojskey'));
         } catch (\Exception $e) {
             abort(403, 'Access Denied');
         }
@@ -32,6 +32,6 @@ trait Decryptor
      */
     public static function useEncrypt($value)
     {
-        return base64_encode(CryptoJsAes::encrypt($value, env('CRYPTOJS_KEY')));
+        return base64_encode(CryptoJsAes::encrypt($value, config('app.cryptojskey')));
     }
 }

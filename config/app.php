@@ -105,6 +105,8 @@ return [
         ),
     ],
 
+    'cryptojskey' => env('CRYPTOJS_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
