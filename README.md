@@ -1,10 +1,12 @@
 # ReactaLara
 
-![reactalaralogo](https://github.com/rizmulya/ReactaLara/assets/122626344/3a36ccfb-50e4-44e1-a758-63a3fe740895)
+<div align="center">
+<img src="https://github.com/rizmulya/ReactaLara/assets/122626344/3a36ccfb-50e4-44e1-a758-63a3fe740895" width="300px" alt="ReactaLara Logo">
+</div>
 
 ## React + Laravel + Inertia
 
-[React](https://react.dev/) 18 + [Laravel](https://laravel.com/) 11 + [Inertia](https://inertiajs.com/) Starter Stack with :
+<b>ReactaLara</b> [React](https://react.dev/) 18 + [Laravel](https://laravel.com/) 11 + [Inertia](https://inertiajs.com/) <b>Starter Stack</b> with :
 
 -   Laravel Breeze Authentication
 -   Multi-Role Authorization
